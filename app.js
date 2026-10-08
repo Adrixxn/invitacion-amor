@@ -1,0 +1,36 @@
+
+(() => {
+  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+  const state={done:[false,false,false,false], accepted:false, gateOrder:[]};
+  const toast=$('#toast'); let toastTimer;
+  function say(m){toast.textContent=m;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2400)}
+  function save(){try{localStorage.setItem('amor-scala-state',JSON.stringify(state))}catch(e){}}
+  function load(){try{const x=JSON.parse(localStorage.getItem('amor-scala-state')||'null');if(x&&Array.isArray(x.done)){state.done=x.done.slice(0,4).map(Boolean);state.accepted=!!x.accepted;state.gateOrder=Array.isArray(x.gateOrder)?x.gateOrder:[]}}catch(e){}}
+  function confetti(n=70){const cs=['#ba8a47','#e8cf9f','#c98782','#7e9a83','#fff'];for(let i=0;i<n;i++){const d=document.createElement('i');d.className='confetti';d.style.left=Math.random()*100+'%';d.style.background=cs[Math.floor(Math.random()*cs.length)];d.style.animationDuration=(2.4+Math.random()*2.2)+'s';d.style.opacity=.65+Math.random()*.35;document.body.appendChild(d);setTimeout(()=>d.remove(),5000)}}
+  function progress(){const c=state.done.filter(Boolean).length;$('#progressFill').style.width=(c/4*100)+'%';$('#progressNum').textContent=c+' / 4';for(let i=1;i<4;i++){$('#act'+(i+1)).classList.toggle('locked',!state.done[i-1])}if(c===4)$('#unlock').classList.add('show');save()}
+  function done(i,msg){if(!state.done[i]){state.done[i]=true;say(msg);confetti(24);progress()}}
+
+  $('#startBtn').addEventListener('click',()=>$('#mission').scrollIntoView({behavior:'smooth'}));
+  $('#peekBtn').addEventListener('click',()=>{const hints=['Pista 1: no necesitas vestirte para una alfombra roja.','Pista 2: probablemente haya una taza cerca.','Pista 3: quiero tiempo para conversar contigo.'];const n=Number($('#peekBtn').dataset.n||0);$('#heroHint').textContent=hints[n%hints.length];$('#peekBtn').dataset.n=n+1});
+
+  $$('#choices1 .choice').forEach(b=>b.addEventListener('click',()=>{if(b.dataset.ok==='true'){b.classList.add('good');$('#status1').textContent='Exacto. Quiero un rato para hablar contigo de verdad. ✓';$('#status1').className='status ok';done(0,'Primera pista desbloqueada 💬')}else{b.classList.add('bad');$('#status1').textContent='Eso sería sospechoso JAJA. Prueba otra.';$('#status1').className='status no';setTimeout(()=>b.classList.remove('bad'),650)}}));
+
+  const syms=['☕','☕','💬','💬','🚶','🚶','✨','✨'].sort(()=>Math.random()-.5);let first=null,lock=false,matches=0;syms.forEach(s=>{const b=document.createElement('button');b.className='mem';b.type='button';b.textContent=s;b.dataset.s=s;$('#memory').appendChild(b);b.addEventListener('click',()=>{if(!state.done[0]||lock||b.classList.contains('open')||b.classList.contains('match'))return;b.classList.add('open');if(!first){first=b;return}lock=true;if(first.dataset.s===b.dataset.s){first.classList.remove('open');b.classList.remove('open');first.classList.add('match');b.classList.add('match');first=null;lock=false;matches++;$('#status2').textContent='Parejas: '+matches+'/4';$('#status2').className='status ok';if(matches===4)done(1,'Memoria completada ☕')}else{const a=first;setTimeout(()=>{a.classList.remove('open');b.classList.remove('open');first=null;lock=false},650)}})});
+
+  const words=['contigo','tiempo','quiero','bonito'];const target=['quiero','tiempo','bonito','contigo'];let picked=[];words.sort(()=>Math.random()-.5).forEach(w=>{const b=document.createElement('button');b.className='word-tile';b.type='button';b.textContent=w;b.addEventListener('click',()=>{if(!state.done[1]||b.classList.contains('selected'))return;b.classList.add('selected');picked.push(w);$('#phraseBox').textContent=picked.join(' ')});$('#wordTiles').appendChild(b)});
+  $('#clearPhrase').addEventListener('click',()=>{if(!state.done[1])return;picked=[];$$('.word-tile').forEach(x=>x.classList.remove('selected'));$('#phraseBox').textContent='Tu frase aparecerá aquí…'});
+  $('#checkPhrase').addEventListener('click',()=>{if(!state.done[1])return;if(JSON.stringify(picked)===JSON.stringify(target)){$('#status3').textContent='“Quiero tiempo bonito contigo.” Esa era. ✓';$('#status3').className='status ok';done(2,'La tercera pista ya es tuya ✨')}else{$('#status3').textContent='Casi. Empieza por “quiero”…';$('#status3').className='status no'}});
+
+  $$('#meter button').forEach((b,i)=>b.addEventListener('click',()=>{if(!state.done[2])return;$$('#meter button').forEach(x=>x.classList.remove('chosen'));b.classList.add('chosen');$('#status4').textContent=i===4?'Respuesta peligrosamente linda. Invitación desbloqueada. ✓':'Curiosidad registrada. Eso cuenta 😌';$('#status4').className='status ok';done(3,'Invitación desbloqueada 💌')}));
+
+  $('#openInvite').addEventListener('click',()=>{$('#invitation').classList.add('show');$('#invitation').scrollIntoView({behavior:'smooth'})});
+  $('#acceptBtn').addEventListener('click',()=>{state.accepted=true;save();$('#answerNote').textContent='Entonces ya tenemos una cita, amor. 💛';$('#postAccept').classList.add('show');confetti(120);say('Cita aceptada 💛');setTimeout(()=>$('#postAccept').scrollIntoView({behavior:'smooth'}),450)});
+  $('#thinkBtn').addEventListener('click',()=>{$('#answerNote').textContent='Está bien. Cero presión. La invitación se queda aquí por si luego quieres decirme que sí 🤍';say('La invitación sigue abierta.')});
+
+  $$('#stars .star-btn').forEach(b=>b.addEventListener('click',()=>{if(!state.accepted)return;const key=b.dataset.key;if(b.classList.contains('active'))return;b.classList.add('active');state.gateOrder.push(key);save();const correct=['talk','coffee','walk'];const pos=state.gateOrder.length-1;if(key!==correct[pos]){$('#gateStatus').textContent='Ese no era el siguiente. Reinicié las estrellas para darte otra oportunidad 👀';$('#gateStatus').className='status no';setTimeout(()=>{$$('#stars .star-btn').forEach(x=>x.classList.remove('active'));state.gateOrder=[];save()},500)}else if(state.gateOrder.length===3){$('#gateStatus').textContent='Orden correcto. Ahora escribe la palabra secreta. ✓';$('#gateStatus').className='status ok'}}));
+  $('#unlockLetter').addEventListener('click',()=>{const okOrder=JSON.stringify(state.gateOrder)===JSON.stringify(['talk','coffee','walk']);const word=$('#letterCode').value.trim().toLowerCase();if(okOrder&&word==='amor'){$('#letter').classList.add('show');confetti(140);say('Carta desbloqueada 💌');setTimeout(()=>$('#letter').scrollIntoView({behavior:'smooth'}),350)}else if(!okOrder){$('#gateStatus').textContent='Primero enciende: conversación → café → paseo.';$('#gateStatus').className='status no'}else{$('#gateStatus').textContent='La palabra es exactamente como me pediste que te llamara…';$('#gateStatus').className='status no'}});
+  $('#letterCode').addEventListener('keydown',e=>{if(e.key==='Enter')$('#unlockLetter').click()});
+  $('#resetBtn').addEventListener('click',()=>{if(!confirm('¿Quieres reiniciar toda la experiencia?'))return;try{localStorage.removeItem('amor-scala-state')}catch(e){}location.reload()});
+
+  load();progress();if(state.accepted){$('#invitation').classList.add('show');$('#postAccept').classList.add('show');$('#answerNote').textContent='Cita aceptada 💛';}
+})();
