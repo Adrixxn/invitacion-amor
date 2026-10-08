@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#fbf6ee" />
+<title>Una invitación para amor 💌</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-card">
+      <div class="eyebrow">Expediente confidencial · destinataria: amor</div>
+      <h1>Hay algo que quiero <em>preguntarte.</em></h1>
+      <p class="lead">Pero no te lo voy a poner tan fácil. Primero tienes que ganarte tres pistas y una llave. No porque la pregunta sea complicada… sino porque quería convertirla en algo un poquito más bonito para ti.</p>
+      <div class="hero-actions"><button class="btn primary" id="startBtn">Aceptar la misión ✨</button><button class="btn secondary" id="peekBtn">¿Una pista?</button></div>
+      <div class="mini-note" id="heroHint">Regla única: no vale saltarse las actividades, amor.</div>
+    </div>
+  </div>
+</header>
+
+<main id="mission" class="section">
+  <div class="wrap">
+    <div class="progress-shell"><div class="progress-card"><strong>Camino a la pregunta</strong><div class="progress-track"><div class="progress-fill" id="progressFill"></div></div><div class="progress-num" id="progressNum">0 / 4</div></div></div>
+    <div class="section-head"><div class="eyebrow">Fase 1 · pistas</div><h2 class="section-title">Primero, juega conmigo.</h2><p class="section-copy">Cada actividad revela una parte del plan. Cuando completes las cuatro, se desbloquea la invitación real.</p></div>
+
+    <div class="activity-grid">
+      <article class="activity" id="act1">
+        <div class="act-top"><div><div class="act-kicker">Actividad 01</div><div class="act-title">¿Qué necesito de ti?</div></div><div class="act-icon">💬</div></div>
+        <p class="act-copy">No busco una respuesta perfecta. Solo elige lo que crees que más quiero compartir contigo.</p>
+        <div class="choice-list" id="choices1">
+          <button class="choice" data-ok="false">Una agenda llena de planes</button>
+          <button class="choice" data-ok="true">Un rato para hablar de verdad</button>
+          <button class="choice" data-ok="false">Una competencia para ver quién gana</button>
+        </div><div class="status" id="status1">Pista: tiene más que ver con escucharnos que con impresionar.</div>
+      </article>
+
+      <article class="activity locked" id="act2">
+        <div class="act-top"><div><div class="act-kicker">Actividad 02</div><div class="act-title">Memoria de pequeñas cosas</div></div><div class="act-icon">🧩</div></div>
+        <p class="act-copy">Encuentra las cuatro parejas. Cada símbolo es una pieza de la salida, pero todavía no te diré dónde.</p>
+        <div class="memory" id="memory"></div><div class="status" id="status2">Bloqueado hasta terminar la actividad anterior.</div>
+      </article>
+
+      <article class="activity locked" id="act3">
+        <div class="act-top"><div><div class="act-kicker">Actividad 03</div><div class="act-title">Construye la frase</div></div><div class="act-icon">🔐</div></div>
+        <p class="act-copy">Toca estas palabras en el orden correcto para descubrir lo que me importa de este plan.</p>
+        <div class="word-game" id="wordTiles"></div><div class="phrase-box" id="phraseBox">Tu frase aparecerá aquí…</div><div class="row-actions"><button class="btn secondary" id="clearPhrase">Borrar</button><button class="btn primary" id="checkPhrase">Comprobar</button></div><div class="status" id="status3">Bloqueado hasta terminar la memoria.</div>
+      </article>
+
+      <article class="activity locked" id="act4">
+        <div class="act-top"><div><div class="act-kicker">Actividad 04</div><div class="act-title">Nivel de curiosidad</div></div><div class="act-icon">☕</div></div>
+        <p class="act-copy">Última prueba: ¿qué tan curiosa estás por saber a dónde quiero llevarte? No hay una respuesta incorrecta… pero sí una respuesta sospechosamente linda.</p>
+        <div class="meter" id="meter"><button>😌</button><button>👀</button><button>🤭</button><button>✨</button><button>💛</button></div><div class="status" id="status4">Bloqueado hasta completar la frase.</div>
+      </article>
+    </div>
+
+    <section class="unlock" id="unlock">
+      <div class="seal">🔓</div><div class="eyebrow">Invitación desbloqueada</div><h2>Ahora sí, amor.</h2><p>Ya tienes las pistas: hablar, un café, caminar un rato y, sobre todo, tiempo contigo. Falta revelar el lugar y hacerte la pregunta que quería hacer desde el principio.</p><div class="row-actions" style="justify-content:center"><button class="btn gold" id="openInvite">Abrir mi invitación 💌</button></div>
+    </section>
+  </div>
+</main>
+
+<section class="section invitation" id="invitation">
+  <div class="wrap">
+    <div class="invite-card">
+      <div class="eyebrow">Fase 2 · la invitación</div><h2 class="invite-title">Amor, ¿tienes una cita conmigo?</h2>
+      <p class="invite-text">Quiero invitarte a <strong>SCALA, en Cumbayá</strong>. Nada demasiado armado ni forzado: quiero sentarme contigo, pedir algo rico, hablar con calma y después caminar juntos por el centro comercial. Me importa más compartir el rato contigo que llenar la salida de cosas.</p>
+      <div class="plan"><div class="plan-card">💬<b>Hablar</b><span>Sin apuro. De nosotros, de la vida o de cualquier tontería que termine haciéndonos reír.</span></div><div class="plan-card">☕<b>Tomar un café</b><span>Una mesa, algo rico y ese momento en el que el resto puede esperar un rato.</span></div><div class="plan-card">🚶<b>Pasear</b><span>Caminar por SCALA contigo, mirar cosas y dejar que el plan se vaya dando solo.</span></div></div>
+      <div class="apology"><strong>Te debo una pequeña disculpa.</strong><br>Yo quería llevarte a una cafetería más bonita que tenía pensada para ese día, pero estará cerrada. Me dio pena porque quería que ese detalle saliera exactamente como lo imaginé. Igual no quería cancelar la idea de verte. Esta vez será en SCALA, pero te prometo que la próxima te llevo a un lugar todavía más bonito y preparado especialmente para ti.</div>
+      <div class="question"><h3>Entonces… ¿aceptas?</h3><p class="invite-text">No hay botón tramposo que huya si dices que no, lo prometo JAJA. La decisión es tuya.</p><div class="row-actions"><button class="btn gold" id="acceptBtn">Sí, acepto la cita 💛</button><button class="btn secondary" id="thinkBtn">Déjame pensarlo 👀</button></div><div class="answer-note" id="answerNote"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section post-accept" id="postAccept">
+  <div class="wrap">
+    <div class="section-head"><div class="eyebrow">Fase 3 · acceso privado</div><h2 class="section-title">Una última cosa, amor.</h2><p class="section-copy">Aceptar la cita desbloqueó algo que no quería poner al principio: una carta para ti. Pero todavía tiene un pequeño candado.</p></div>
+    <div class="gate-card">
+      <h3 style="margin:0;font-size:1.35rem">Enciende las estrellas en este orden:</h3><p class="gate-hint">Primero la que representa nuestra conversación, luego el café y al final el paseo. Cuando las tres estén encendidas, escribe la palabra con la que me pediste que me refiriera a ti.</p>
+      <div class="stars" id="stars"><button class="star-btn" data-key="talk" aria-label="Conversación">💬</button><button class="star-btn" data-key="walk" aria-label="Paseo">🚶</button><button class="star-btn" data-key="coffee" aria-label="Café">☕</button><button class="star-btn" data-key="heart" aria-label="Corazón">💛</button></div>
+      <div class="gate-code"><input class="codebox" id="letterCode" autocomplete="off" placeholder="Palabra secreta…" aria-label="Palabra secreta"><button class="btn primary" id="unlockLetter">Abrir la carta</button></div><div class="status" id="gateStatus">Orden correcto: conversación → café → paseo.</div>
+    </div>
+  </div>
+</section>
+
+<section class="section letter" id="letter">
+  <div class="wrap letter-shell">
+    <div class="letter-paper">
+      <div class="letter-date">Para leer después de aceptar</div><h2>Amor,</h2>
+      <p>No quería que esta invitación fuera solamente un mensaje diciendo “vamos por un café”. Quería que tuviera algo mío: tiempo, intención y un poquito de esa complicidad que hemos ido construyendo.</p>
+      <p>Lo que más me emociona de esta cita no es SCALA, ni el café, ni siquiera el lugar al que originalmente quería llevarte. Eres tú. Poder sentarme frente a ti, escucharte, hacerte reír, caminar contigo y tener un espacio donde simplemente podamos estar.</p>
+      <p>También quería pedirte perdón porque el plan que tenía primero en mi cabeza era un poco más especial. Esa cafetería estará cerrada ese día y no pude hacer que saliera exactamente como quería. Pero prefiero cambiar el lugar antes que perder la oportunidad de verte.</p>
+      <p>Y sí, te lo prometo: esta no cuenta como mi intento más bonito. La próxima quiero llevarte a un lugar que esté a la altura de lo que imaginé para ti. Esta vez solo quiero algo sencillo, sincero y nuestro: hablar, un café, un paseo… y tu compañía.</p>
+      <p>Gracias por llegar hasta aquí y, sobre todo, por haber dicho que sí.</p>
+      <div class="signature">Con cariño,<br>el chico que quería invitarte de una forma menos aburrida 💛</div>
+    </div>
+  </div>
+</section>
+
+<div class="reset-row"><button class="btn secondary" id="resetBtn">Reiniciar experiencia</button><div class="tiny" style="margin-top:10px">Tu progreso se guarda en este dispositivo.</div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
